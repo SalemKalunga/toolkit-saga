@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCatsStart } from "./store/catsSlice/catesSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  const catsData = useSelector((state) => state.cats.data);
+  useEffect(() => {
+    dispatch(fetchCatsStart());
+  }, [dispatch]);
+
+  console.log({ catsData });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <h1>Hello world</h1>
+      {catsData.map((comment) => (
+        <div
+          style={{ border: "1px solid", margin: "10px", padding: "10px" }}
+          key={comment.id}
         >
-          Learn React
-        </a>
-      </header>
+          <h1>{comment.title}</h1>
+          <p>{comment.body}</p>
+        </div>
+      ))}
     </div>
   );
 }
